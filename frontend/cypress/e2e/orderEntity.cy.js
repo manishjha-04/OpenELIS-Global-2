@@ -4,13 +4,15 @@ let homePage = null;
 let loginPage = null;
 let orderEntityPage = null;
 let patientEntryPage = null;
+const programs = ["Routine Testing", "Histopathology"];
 
 before("login", () => {
   loginPage = new LoginPage();
   loginPage.visit();
 });
 
-describe("Order Entity", function () {
+programs.forEach(program => {
+describe(`Order Entity for ${program} program`, function () {
   it("User Visits Home Page and goes to Order entity Page ", function () {
     homePage = loginPage.goToHomePage();
     orderEntityPage = homePage.goToOrderPage();
@@ -38,7 +40,9 @@ describe("Order Entity", function () {
 
   it("User should click next to go to program selection", function () {
     orderEntityPage.clickNextButton();
-    cy.wait(1000);
+    cy.wait(1000);   
+    cy.get('#additionalQuestionsSelect').select(program);
+
     orderEntityPage.clickNextButton();
   });
 
@@ -87,4 +91,4 @@ describe("Order Entity", function () {
   it("should click submit order button", function () {
     orderEntityPage.clickSubmitOrderButton();
   });
-});
+});});
